@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>INSUREEVER Smartness Meter</title>
+<style>
+body{margin:0;font-family:Arial,sans-serif;background:linear-gradient(135deg,#0056A6,#0A7DFF,#FFD700);padding:15px}
+.wrap{max-width:900px;margin:auto;background:#fff;border-radius:20px;padding:20px;box-shadow:0 10px 30px rgba(0,0,0,.2)}
+h1{text-align:center;color:#0056A6}
+.logos{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.logos img{height:50px}
+.card{background:#f8f9fa;padding:15px;border-radius:12px;margin:12px 0;border-left:5px solid #0056A6}
+button{width:100%;padding:14px;border:0;border-radius:30px;background:#0056A6;color:#fff;font-size:18px;cursor:pointer}
+.result{display:none;margin-top:20px;padding:20px;border-radius:15px}
+input[type=text],input[type=tel],input[type=number]{width:100%;padding:10px;margin:5px 0 10px;box-sizing:border-box}
+.wa{display:inline-block;background:#25D366;color:#fff;text-decoration:none;padding:12px 20px;border-radius:25px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<center><img src="INSUREEVER LOGO(6).jpg" style="max-height:120px"></center>
+<h1>🧠 INSUREEVER SMARTNESS METER</h1>
+<div class="logos">
+<img src="Lic.png"><img src="TATA_AIG.png"><img src="star health.png"><img src="Care.png"><img src="National Insurance.png">
+</div>
+<div class="card"><b>LIC लिया क्या? नहीं लिया...? सही किया...? सोचिए! पहले अपना Smartness Score जांचिए।</b></div>
+
+<input type="text" id="name" placeholder="नाम">
+<input type="tel" id="mobile" placeholder="मोबाइल नंबर">
+<input type="number" id="age" placeholder="आयु">
+<input type="text" id="city" placeholder="शहर">
+
+<form id="f"></form>
+<button onclick="calc()">🎯 मेरा Smartness Score देखें</button>
+<div id="r" class="result"></div>
+</div>
+
+<script>
+const qs=[
+["यदि कल से आपकी आय बंद हो जाए तो आपका परिवार कितने समय तक खर्च चला सकता है?",[["12 महीने+",15],["6-12 महीने",10],["3-6 महीने",5],["3 महीने से कम",0]]],
+["क्या आपके पास पर्याप्त Life Insurance है?",[["हाँ",15],["थोड़ा",8],["नहीं",0]]],
+["क्या आपके पास Health Insurance है?",[["हाँ",15],["नहीं",0]]],
+["क्या आपने बच्चों के भविष्य की योजना बनाई है?",[["हाँ",15],["सोच रहा हूँ",5],["नहीं",0]]],
+["क्या आपके पास Emergency Fund है?",[["6 महीने+",15],["3-6 महीने",10],["1-3 महीने",5],["नहीं",0]]],
+["क्या आपके परिवार को आपकी वित्तीय योजनाओं और दस्तावेजों की जानकारी है?",[["पूरी",10],["थोड़ी",5],["नहीं",0]]],
+["क्या आप नियमित बचत करते हैं?",[["हर महीने",10],["कभी-कभी",5],["नहीं",0]]],
+["क्या आपके पास घर/वाहन बीमा है?",[["हाँ",5],["नहीं",0]]]
+];
+let h='';
+qs.forEach((q,i)=>{
+h+=`<div class="card"><b>${i+1}. ${q[0]}</b><br>`;
+q[1].forEach(a=>h+=`<label><input type="radio" name="q${i}" value="${a[1]}"> ${a[0]}</label><br>`);
+h+='</div>';
+});
+document.getElementById('f').innerHTML=h;
+
+function calc(){
+let t=0;
+for(let i=0;i<qs.length;i++){
+let s=document.querySelector('input[name=q'+i+']:checked');
+if(s)t+=parseInt(s.value);
+}
+let cat='🔴 High Risk',ad='तुरंत सुरक्षा समीक्षा आवश्यक',bg='#f8d7da';
+if(t>=80){cat='🟢 Financial Champion';ad='उत्कृष्ट वित्तीय तैयारी';bg='#d4edda';}
+else if(t>=60){cat='🟡 Good Planner';ad='कुछ सुधार की आवश्यकता';bg='#fff3cd';}
+else if(t>=40){cat='🟠 Needs Attention';ad='Health और Life Cover बढ़ाइए';bg='#ffe5b4';}
+
+let name=document.getElementById('name').value;
+let mobile=document.getElementById('mobile').value;
+let age=document.getElementById('age').value;
+let city=document.getElementById('city').value;
+
+let msg=`Namaste INSUREEVER,%0A%0AMaine Smartness Meter Complete Kiya Hai.%0A%0AName: ${name}%0AMobile: ${mobile}%0AAge: ${age}%0ACity: ${city}%0A%0ASmartness Score: ${t}/100%0ACategory: ${cat}%0A%0AKripya meri Financial Security Review karein.`;
+
+let r=document.getElementById('r');
+r.style.display='block';
+r.style.background=bg;
+r.innerHTML=`<h2>Score: ${t}/100</h2><h3>${cat}</h3><p>${ad}</p>
+<p><b>Name:</b> ${name}</p>
+<a class="wa" target="_blank" href="https://wa.me/919910182157?text=${msg}">📱 WhatsApp पर सलाह लें</a>`;
+}
+</script>
+</body>
+</html>
